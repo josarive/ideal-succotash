@@ -21,21 +21,22 @@ var products = [
         color:"orange"
     }
 ];
-var ele = [];
+var eles = [];
 
 const popUp=document.querySelector(".popUp");
 
 function box(itm){
     const that=this;
-    that.style(itm.color);
+    that.create();
     that.image(itm.image);
     that.name(itm.name);
     that.price(itm.price);
+
     this.ele.appendChild(this.img);
     this.ele.appendChild(this.nameEle);
     this.ele.appendChild(this.priceEle);
-    document.body.appendChild(this.container);
-    this.container.appendChild(this.ele);
+    document.body.appendChild(this.ele);
+
     this.ele.addEventListener("click", function(){
         that.popUp();
     })
@@ -47,40 +48,51 @@ function box(itm){
     })
 }
 
-box.prototype.style= function (color){
+box.prototype.create= function (){
     this.ele=document.createElement("div");
-    this.container=document.createElement("div");
-    this.container.className="product";
     this.ele.className="product";
-
 }
+
 box.prototype.image=function(image){
     this.img=document.createElement("img");
     this.img.src=image;
-
 }
+
 box.prototype.name=function(name){
     this.nameEle=document.createElement("p");
     this.nameEle.innerHTML="Name: " + name;
 }
+
 box.prototype.price=function(price){
     this.priceEle=document.createElement("p");
     this.priceEle.innerHTML="Price: $"+price;
 }
-box.prototype.popUp = function(pop){
+
+box.prototype.popUp = function(){
     const that=this;
-    this.ele.className="popUp";
-    this.ele.addEventListener("click", function(){
+
+    popUp.appendChild(this.img);
+    popUp.appendChild(this.nameEle);
+    popUp.appendChild(this.priceEle);
+
+    popUp.removeAttribute("style");
+
+    popUp.addEventListener("click", function(){
         that.products();
     })
-
 }
+
 box.prototype.colorTo=function(color){
     this.ele.style.borderColor = color;
 }
 box.prototype.products=function(){
     const that=this;
-    this.ele.className="product";
+    popUp.style.display="none";
+
+    this.ele.appendChild(this.img);
+    this.ele.appendChild(this.nameEle);
+    this.ele.appendChild(this.priceEle);
+
     this.ele.addEventListener("click", function(){
         that.popUp();
     })
@@ -88,7 +100,7 @@ box.prototype.products=function(){
 function start() {
     popUp.style.display = "none";
     for (let i = 0; i < products.length; i++) {
-        ele.push(new box(products[i]));
+        eles.push(new box(products[i]));
     }
 }
 
